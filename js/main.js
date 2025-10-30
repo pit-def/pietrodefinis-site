@@ -6,13 +6,13 @@ const NAV_TEMPLATE = `
     <div class="container nav-inner">
       <div class="brand">
         <span class="dot"></span>
-        <a href="/index.html" class="brand-link">Pietro De Finis</a>
+        <a href="/" class="brand-link">Pietro De Finis</a>
         <span class="role">Project Catalyst</span>
       </div>
       <nav class="navlinks" aria-label="Primary">
-        <a href="/resume.html">Resume</a>
-        <a href="/projects.html">Projects</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/resume/">Resume</a>
+        <a href="/projects/">Projects</a>
+        <a href="/contact/">Contact</a>
       </nav>
       <button class="hamburger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -26,7 +26,7 @@ const NAV_TEMPLATE = `
         <div class="drawer-top">
         <div class="drawer-brand">
           <span class="dot"></span>
-          <a href="/index.html" class="brand-link">Pietro De Finis</a>
+          <a href="/" class="brand-link">Pietro De Finis</a>
           <span class="role">Project Catalyst</span>
         </div>
           <button class="drawer-close" aria-label="Close menu">
@@ -36,9 +36,9 @@ const NAV_TEMPLATE = `
           </button>
         </div>
         <nav class="drawer-nav" aria-label="Mobile">
-          <a href="/resume.html">Resume</a>
-          <a href="/projects.html">Projects</a>
-          <a href="/contact.html">Contact</a>
+          <a href="/resume/">Resume</a>
+          <a href="/projects/">Projects</a>
+          <a href="/contact/">Contact</a>
         </nav>
       </div>
     </aside>
@@ -75,15 +75,28 @@ const FOOTER_TEMPLATE = `
   </footer>
 `;
 
+function normalizePath(path){
+  if (!path || path.startsWith('#')) return null;
+  try {
+    const url = new URL(path, window.location.origin);
+    if (url.origin !== window.location.origin) return null;
+    const trimmed = url.pathname.replace(/\/+$/, '');
+    return trimmed === '' ? '/' : trimmed;
+  } catch (err) {
+    return null;
+  }
+}
+
 function markActiveLinks(scope){
   if (!scope) return;
-  let current = window.location.pathname.split('/').pop() || 'index.html';
-  current = current.split('?')[0].split('#')[0] || 'index.html';
+  const current = normalizePath(window.location.pathname) || '/';
   scope.querySelectorAll('a[href]').forEach(link => {
-    const href = link.getAttribute('href');
-    if (!href) return;
-    const target = href.split('/').pop() || href;
-    if (target === current || (target === 'index.html' && current === '')) {
+    const target = normalizePath(link.getAttribute('href'));
+    if (!target) {
+      link.removeAttribute('aria-current');
+      return;
+    }
+    if (target === current || (target !== '/' && current.startsWith(target + '/'))) {
       link.setAttribute('aria-current','page');
     } else {
       link.removeAttribute('aria-current');
