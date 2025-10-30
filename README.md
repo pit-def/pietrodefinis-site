@@ -11,13 +11,28 @@ Built with plain HTML, CSS and a touch of vanilla JS. Deployed on GitHub Pages.
 ## Structure
 .
 ├─ index.html # Home/About
-├─ projects.html # Projects
-├─ resume.html # Resume
-├─ contact.html # Contact
+├─ projects/
+│ ├─ index.html # Projects overview
+│ ├─ agua-segura/
+│ │ └─ index.html
+│ ├─ operazione-caretta/
+│ │ └─ index.html
+│ ├─ cern-ifast-challenge/
+│ │ └─ index.html
+│ └─ cleantech-academy/
+│   └─ index.html
+├─ resume/
+│ └─ index.html # Resume
+├─ contact/
+│ └─ index.html # Contact
 ├─ assets/
-│ ├─ css/styles.css
-│ ├─ js/main.js
+│ ├─ favicon_v2.svg
+│ ├─ cv/
 │ └─ img/
+├─ css/
+│ └─ styles.css
+├─ js/
+│ └─ main.js
 ├─ sitemap.xml
 ├─ robots.txt
 ├─ CNAME # only if using a custom domain
