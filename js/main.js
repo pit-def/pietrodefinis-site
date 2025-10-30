@@ -75,15 +75,6 @@ const FOOTER_TEMPLATE = `
   </footer>
 `;
 
-function stripTrailingSlashFromAddressBar(){
-  if (!('replaceState' in history)) return;
-  const { pathname, search, hash } = window.location;
-  if (!pathname || pathname === '/' || !pathname.endsWith('/')) return;
-  const trimmedPath = pathname.replace(/\/+$/, '');
-  if (!trimmedPath) return;
-  history.replaceState(null, '', trimmedPath + search + hash);
-}
-
 function normalizePath(path){
   if (!path || path.startsWith('#')) return null;
   try {
