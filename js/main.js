@@ -10,9 +10,9 @@ const NAV_TEMPLATE = `
         <span class="role">Project Catalyst</span>
       </div>
       <nav class="navlinks" aria-label="Primary">
-        <a href="/resume/">Resume</a>
-        <a href="/projects/">Projects</a>
-        <a href="/contact/">Contact</a>
+        <a href="/resume">Resume</a>
+        <a href="/projects">Projects</a>
+        <a href="/contact">Contact</a>
       </nav>
       <button class="hamburger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -36,9 +36,9 @@ const NAV_TEMPLATE = `
           </button>
         </div>
         <nav class="drawer-nav" aria-label="Mobile">
-          <a href="/resume/">Resume</a>
-          <a href="/projects/">Projects</a>
-          <a href="/contact/">Contact</a>
+          <a href="/resume">Resume</a>
+          <a href="/projects">Projects</a>
+          <a href="/contact">Contact</a>
         </nav>
       </div>
     </aside>
@@ -74,6 +74,20 @@ const FOOTER_TEMPLATE = `
     </div>
   </footer>
 `;
+
+function cleanCurrentUrl(){
+  if (!window.history || typeof window.history.replaceState !== 'function') return;
+
+  const { pathname, search, hash } = window.location;
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    const trimmed = pathname.replace(/\/+$/, '');
+    if (trimmed && trimmed !== pathname) {
+      window.history.replaceState(null, '', `${trimmed}${search}${hash}`);
+    }
+  }
+}
+
+cleanCurrentUrl();
 
 function normalizePath(path){
   if (!path || path.startsWith('#')) return null;
