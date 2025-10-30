@@ -1,0 +1,41 @@
+<header class="navbar" data-navbar-root>
+  <div class="container nav-inner">
+    <div class="brand">
+      <img src="assets/img/icon.png" alt="Icona Personale" class="brand-icon">
+      <a href="index.html" class="brand-link">Pietro De Finis</a>
+      <span class="role">- Project Catalyst</span>
+    </div>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="resume.html">Resume</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="hamburger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+  <aside id="mobile-drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-top">
+        <div class="drawer-brand">
+          <img src="assets/img/icon.png" alt="Icona Personale" class="brand-icon">
+          <a href="index.html" class="brand-link">Pietro De Finis</a>
+          <span class="role">Project Catalyst</span>
+        </div>
+        <button class="drawer-close" aria-label="Close menu">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="drawer-nav" aria-label="Mobile">
+        <a href="resume.html">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </aside>
+</header>
