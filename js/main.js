@@ -215,6 +215,7 @@ function loadFooter(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  stripTrailingSlashFromAddressBar();
   loadNavbar();
   loadFooter();
   setupProjectCards();
