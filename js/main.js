@@ -6,13 +6,13 @@ const NAV_TEMPLATE = `
     <div class="container nav-inner">
       <div class="brand">
         <span class="dot"></span>
-        <a href="index.html" class="brand-link">Pietro De Finis</a>
+        <a href="/index.html" class="brand-link">Pietro De Finis</a>
         <span class="role">Project Catalyst</span>
       </div>
       <nav class="navlinks" aria-label="Primary">
-        <a href="resume.html">Resume</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
+        <a href="/resume.html">Resume</a>
+        <a href="/projects.html">Projects</a>
+        <a href="/contact.html">Contact</a>
       </nav>
       <button class="hamburger" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -24,11 +24,11 @@ const NAV_TEMPLATE = `
     <aside id="mobile-drawer" class="drawer" aria-hidden="true">
       <div class="drawer-inner">
         <div class="drawer-top">
-          <div class="drawer-brand">
-            <span class="dot"></span>
-            <a href="index.html" class="brand-link">Pietro De Finis</a>
-            <span class="role">Project Catalyst</span>
-          </div>
+        <div class="drawer-brand">
+          <span class="dot"></span>
+          <a href="/index.html" class="brand-link">Pietro De Finis</a>
+          <span class="role">Project Catalyst</span>
+        </div>
           <button class="drawer-close" aria-label="Close menu">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -36,9 +36,9 @@ const NAV_TEMPLATE = `
           </button>
         </div>
         <nav class="drawer-nav" aria-label="Mobile">
-          <a href="resume.html">Resume</a>
-          <a href="projects.html">Projects</a>
-          <a href="contact.html">Contact</a>
+          <a href="/resume.html">Resume</a>
+          <a href="/projects.html">Projects</a>
+          <a href="/contact.html">Contact</a>
         </nav>
       </div>
     </aside>
@@ -50,16 +50,16 @@ const FOOTER_TEMPLATE = `
     <div class="container footer__wrap">
       <nav class="footer__social" aria-label="Social links">
         <a class="social" href="https://instagram.com/pit.def" target="_blank" rel="noopener" aria-label="Instagram">
-          <img src="assets/img/icons/instagram.svg" alt="" width="24" height="24">
+          <img src="/assets/img/icons/instagram.svg" alt="" width="24" height="24">
         </a>
         <a class="social" href="https://www.linkedin.com/in/pietro-de-finis-explorer/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <img src="assets/img/icons/linkedin.svg" alt="" width="24" height="24">
+          <img src="/assets/img/icons/linkedin.svg" alt="" width="24" height="24">
         </a>
         <a class="social" href="https://www.facebook.com/profile.php?id=61580486282690" target="_blank" rel="noopener" aria-label="Facebook">
-          <img src="assets/img/icons/facebook.svg" alt="" width="24" height="24">
+          <img src="/assets/img/icons/facebook.svg" alt="" width="24" height="24">
         </a>
         <a class="social" href="https://explore.pietrodefinis.com" target="_blank" rel="noopener" aria-label="Personal site">
-          <img src="assets/img/icons/compass.svg" alt="" width="24" height="24">
+          <img src="/assets/img/icons/compass.svg" alt="" width="24" height="24">
         </a>
       </nav>
       <blockquote class="footer__quote">
@@ -160,7 +160,7 @@ function loadNavbar(){
   const host = document.querySelector('[data-navbar]');
   if (!host) return Promise.resolve();
 
-  return fetch('partials/navbar.html')
+  return fetch('/partials/navbar.html')
     .then(res => (res.ok ? res.text() : Promise.reject()))
     .then(html => {
       host.innerHTML = html || NAV_TEMPLATE;
@@ -189,7 +189,7 @@ function loadFooter(){
     return;
   }
 
-  fetch('partials/footer.html')
+  fetch('/partials/footer.html')
     .then(res => (res.ok ? res.text() : Promise.reject()))
     .then(html => {
       footerHost.innerHTML = html || FOOTER_TEMPLATE;
