@@ -1,4 +1,5 @@
 const mobileQuery = window.matchMedia('(max-width: 840px)');
+const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const NAV_TEMPLATE = `
   <header class="navbar" data-navbar-root>
@@ -203,36 +204,109 @@ function loadFooter(){
 document.addEventListener('DOMContentLoaded', () => {
   loadNavbar();
   loadFooter();
+  setupProjectCards();
 });
 
-// Projects: expand/collapse with smooth height
-function toggleDetails(card, btn){
-  const box = card.querySelector('.details');
-  const isOpen = card.classList.contains('expanded');
-  const targetH = isOpen ? 0 : box.scrollHeight;
-
-  // animate height
-  box.style.maxHeight = targetH + 'px';
-  card.classList.toggle('expanded', !isOpen);
-  if (btn) btn.setAttribute('aria-expanded', String(!isOpen));
+function getToggleLabelTarget(btn){
+  return btn?.querySelector('.btn__label') || btn;
 }
 
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.js-toggle');
+function setToggleState(btn, expanded){
   if (!btn) return;
+  const target = getToggleLabelTarget(btn);
+  const label = expanded
+    ? btn.dataset.labelClose || 'Hide details'
+    : btn.dataset.labelOpen || 'Read more';
+  target.textContent = label;
+  btn.setAttribute('aria-expanded', String(expanded));
+}
 
-  const card = btn.closest('.proj-card');
-  const details = card.querySelector('.details');
+function collapseProjectCard(card){
+  if (!card) return;
+  const details = card.querySelector('.project-card__details');
+  if (!details) return;
 
-  // if opening first time, remove [hidden] so CSS height can animate
+  const btn = card.querySelector('.js-toggle');
+  const currentHeight = details.scrollHeight;
+
+  details.style.maxHeight = currentHeight + 'px';
+  requestAnimationFrame(() => {
+    details.style.maxHeight = '0px';
+  });
+
+  const handleTransitionEnd = (event) => {
+    if (event.target !== details || event.propertyName !== 'max-height') return;
+    details.hidden = true;
+    details.style.maxHeight = '';
+    details.removeEventListener('transitionend', handleTransitionEnd);
+  };
+
+  details.addEventListener('transitionend', handleTransitionEnd);
+
+  card.classList.remove('is-open');
+  setToggleState(btn, false);
+}
+
+function expandProjectCard(card, btn){
+  if (!card) return;
+  const details = card.querySelector('.project-card__details');
+  if (!details) return;
+
+  document.querySelectorAll('.project-card.is-open').forEach(other => {
+    if (other !== card) collapseProjectCard(other);
+  });
+
   if (details.hasAttribute('hidden')) details.removeAttribute('hidden');
 
-  toggleDetails(card, btn);
-});
+  details.style.maxHeight = '0px';
+  card.classList.add('is-open');
+  requestAnimationFrame(() => {
+    const contentHeight = details.scrollHeight;
+    details.style.maxHeight = contentHeight + 'px';
+  });
 
-// ensure correct height on resize when open
+  setToggleState(btn, true);
+
+  if (reduceMotionQuery.matches) {
+    const top = card.getBoundingClientRect().top + window.pageYOffset - 24;
+    window.scrollTo({ top, behavior: 'auto' });
+  } else {
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }, 140);
+  }
+}
+
+function setupProjectCards(){
+  document.querySelectorAll('.project-card__details').forEach(details => {
+    if (!details.id) {
+      const card = details.closest('.project-card');
+      if (card) {
+        details.id = `${card.id || 'project'}-details`;
+      }
+    }
+  });
+
+  document.addEventListener('click', handleProjectToggleClick);
+}
+
+function handleProjectToggleClick(event){
+  const btn = event.target.closest('.js-toggle');
+  if (!btn) return;
+
+  const card = btn.closest('.project-card');
+  if (!card) return;
+
+  const isOpen = card.classList.contains('is-open');
+  if (isOpen) {
+    collapseProjectCard(card);
+  } else {
+    expandProjectCard(card, btn);
+  }
+}
+
 window.addEventListener('resize', () => {
-  document.querySelectorAll('.proj-card.expanded .details').forEach(d => {
-    d.style.maxHeight = d.scrollHeight + 'px';
+  document.querySelectorAll('.project-card.is-open .project-card__details').forEach(details => {
+    details.style.maxHeight = details.scrollHeight + 'px';
   });
 });
