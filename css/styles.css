@@ -1065,6 +1065,30 @@ html.no-scroll {
   color: var(--link);
 }
 
+.project-overview {
+  display: grid;
+  gap: 18px;
+}
+
+.project-details {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.project-details li strong {
+  color: var(--text);
+}
+
+@media (min-width: 880px) {
+  .project-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .project-section--end .project-section__content {
   display: flex;
   justify-content: center;
